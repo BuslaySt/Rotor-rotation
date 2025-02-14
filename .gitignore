@@ -4,3 +4,5 @@
 /venv
 *.png
 /data
+/docs
+/temp
