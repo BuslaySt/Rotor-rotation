@@ -1,8 +1,8 @@
 
-*.csv
 /data
 /venv
-*.png
 /data
 /docs
 /temp
+*.csv
+*.png
