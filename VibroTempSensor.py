@@ -182,7 +182,7 @@ class MainUI(QMainWindow):
         numberMeasurements = round(duration/freq)
         timestamp = 0.0
         self.pBtn_Start.setEnabled(False)
-        self.pBtn_Start.setStyleSheet('QPushButton {background-color : red;}'
+        self.pBtn_Start.setStyleSheet('QPushButton {background-color : red;}')
                                         # 'QPushButton:hover { background-color: forestgreen;}')
 
         self.sensorData = pd.DataFrame(columns=self.sensorDataFields)
@@ -232,13 +232,13 @@ class MainUI(QMainWindow):
         print(message)
         self.statusbar.showMessage(message)
         self.pBtn_Start.setEnabled(True)
-        self.pBtn_Start.setStyleSheet('QPushButton {background-color : green;}'
+        self.pBtn_Start.setStyleSheet('QPushButton {background-color : green;}')
         self.sensor.serial.close()
 
     def dumpData(self) -> None:
         comment = self.lEd_FileComment.currentText()
-        filename = time.strftime("%Y-%m-%d_%H-%M")
-        self.sensorData.to_csv(f"data_{filename}.csv")
+        filename = time.strftime(f"%Y-%m-%d_%H-%M-%S-{comment}")
+        self.sensorData.to_csv(f"sensorData_{filename}.csv")
 
 if __name__ == '__main__':
     app = QApplication([])
