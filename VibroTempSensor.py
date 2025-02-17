@@ -63,6 +63,7 @@ class MainUI(QMainWindow):
                 '47_MB_REG_MAX_AMPLITUDE_FREQUENCY_Z']
 
         self.sensorDataFields =[
+                    '00_TIME',
                     '01_STATUS',
                     '02_DEVICE_CODE',
                     '03_DEVICE_ID',
@@ -157,7 +158,7 @@ class MainUI(QMainWindow):
             self.statusbar.showMessage(message)
             self.pBtn_Start.setEnabled(True)
             self.pBtn_Connect.setStyleSheet('QPushButton {background-color : #45a049;}'
-                                         'QPushButton:hover { background-color: forestgreen;}') 
+                                         'QPushButton:hover { background-color: forestgreen;}')
         except (IOError, AttributeError, ValueError) as error: # minimalmodbus.serial.serialutil.SerialException:
             message = "Датчик не виден"
             print(message)
@@ -179,6 +180,10 @@ class MainUI(QMainWindow):
         freq = float(self.cBox_Freq.currentText())
         duration = int(self.cBox_Time.currentText())
         numberMeasurements = round(duration/freq)
+        timestamp = 0.0
+        self.pBtn_Start.setEnabled(False)
+        self.pBtn_Start.setStyleSheet('QPushButton {background-color : red;}'
+                                        # 'QPushButton:hover { background-color: forestgreen;}')
 
         self.sensorData = pd.DataFrame(columns=self.sensorDataFields)
 
@@ -187,6 +192,7 @@ class MainUI(QMainWindow):
             dataline = self.getDataFromSensor()
 
             line = []
+            line.append(timestamp)
             line.append(dataline[0])
             line.append(dataline[1])
             line.append(dataline[2])
@@ -220,14 +226,17 @@ class MainUI(QMainWindow):
             self.sensorData.loc[len(self.sensorData)] = line
             if freq >= 0.02:
                 time.sleep(freq-0.2)
-            print(time.time()-checktime)
+            timestamp = time.time()-checktime
 
         message = "Измерение завершено"
         print(message)
         self.statusbar.showMessage(message)
+        self.pBtn_Start.setEnabled(True)
+        self.pBtn_Start.setStyleSheet('QPushButton {background-color : green;}'
         self.sensor.serial.close()
 
     def dumpData(self) -> None:
+        comment = self.lEd_FileComment.currentText()
         filename = time.strftime("%Y-%m-%d_%H-%M")
         self.sensorData.to_csv(f"data_{filename}.csv")
 
