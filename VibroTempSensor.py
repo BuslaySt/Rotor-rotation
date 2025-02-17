@@ -108,7 +108,7 @@ class MainUI(QMainWindow):
         self.cBox_Baudrate.addItems(self.Baudrates)
         self.cBox_Baudrate.setCurrentIndex(6)
 
-        self.Frequency = ['0.01', '0.05','0.1','0.5','1.0','5.0']
+        self.Frequency = ['0.03', '0.1','0.5','1.0','5.0']
         self.cBox_Freq.addItems(self.Frequency)
         self.cBox_Freq.setCurrentIndex(2)
 
@@ -155,11 +155,15 @@ class MainUI(QMainWindow):
             message = ''.join(['Датчик подключен: ', str(self.sensor)])
             print(message)
             self.statusbar.showMessage(message)
+            self.pBtn_Start.setEnabled(True)
+            self.pBtn_Connect.setStyleSheet('QPushButton {background-color : #45a049;}'
+                                         'QPushButton:hover { background-color: forestgreen;}') 
         except (IOError, AttributeError, ValueError) as error: # minimalmodbus.serial.serialutil.SerialException:
             message = "Датчик не виден"
             print(message)
             self.statusbar.showMessage(message)
             print(error)
+            self.pBtn_Start.setEnabled(False)
 
     def getDataFromSensor(self) -> list:
         try:
@@ -214,7 +218,8 @@ class MainUI(QMainWindow):
             line.append(dataline[46])
 
             self.sensorData.loc[len(self.sensorData)] = line
-            # time.sleep(freq)
+            if freq >= 0.02:
+                time.sleep(freq-0.2)
             print(time.time()-checktime)
 
         message = "Измерение завершено"
