@@ -124,10 +124,10 @@ class MainUI(QMainWindow):
         self.pBtn_File.clicked.connect(self.dumpData)
 
     def IEEE754_to_float(self, int_lo: int, int_hi: int) -> float:
-        # Забираем 4 символа 16-ричной записи
+        # Забираем 4 символа 16-ричной записи каждого регистра
         hex_lo = hex(int_lo)[2:]
         hex_hi = hex(int_hi)[2:]
-        # собираем шестнадцатиричное значение
+        # собираем шестнадцатиричное значение из регистров
         hex_value = f"{hex_lo:0>4}{hex_hi:0>4}"
         # Преобразуем hex в байты
         bytes_value = bytes.fromhex(hex_value)
@@ -156,7 +156,7 @@ class MainUI(QMainWindow):
             message = ''.join(['Датчик подключен: ', str(self.sensor)])
             print(message)
             self.statusbar.showMessage(message)
-            self.pBtn_Start.setEnabled(True)
+            self.tab_Measure.setEnabled(True)
             self.pBtn_Connect.setStyleSheet('QPushButton {background-color : #45a049;}'
                                          'QPushButton:hover { background-color: forestgreen;}')
         except (IOError, AttributeError, ValueError) as error: # minimalmodbus.serial.serialutil.SerialException:
@@ -164,7 +164,7 @@ class MainUI(QMainWindow):
             print(message)
             self.statusbar.showMessage(message)
             print(error)
-            self.pBtn_Start.setEnabled(False)
+            self.tab_Measure.setEnabled(False)
 
     def getDataFromSensor(self) -> list:
         try:
