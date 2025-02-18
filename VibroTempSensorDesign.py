@@ -7,7 +7,6 @@ import serial.tools.list_ports
 
 import pandas as pd
 import struct
-# import threading
 
 class MainUI(QMainWindow):
     def __init__(self):
