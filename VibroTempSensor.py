@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.uic import loadUi
 # from PyQt5.QtWebEngineWidgets import QWebEngineView
-import sys, datetime, time, json
+import os, sys, datetime, time, json
 import minimalmodbus, serial
 import serial.tools.list_ports
 
@@ -157,7 +157,6 @@ class MainUI(QMainWindow):
             print(message)
             self.statusbar.showMessage(message)
             self.tab_Measure.setEnabled(True)
-            self.pBtn_Start.setEnabled(True)
             self.pBtn_Connect.setStyleSheet('QPushButton {background-color : #45a049;}'
                                          'QPushButton:hover { background-color: forestgreen;}')
         except (IOError, AttributeError, ValueError) as error: # minimalmodbus.serial.serialutil.SerialException:
@@ -165,8 +164,7 @@ class MainUI(QMainWindow):
             print(message)
             self.statusbar.showMessage(message)
             print(error)
-            self.tab_Measure.setEnabled(True) # TODO False
-            # self.pBtn_Start.setEnabled(True) # TODO False
+            self.tab_Measure.setEnabled(True)
 
     def getDataFromSensor(self) -> list:
         try:
@@ -257,9 +255,11 @@ class MainUI(QMainWindow):
             print(err)
 
     def dumpData(self) -> None:
+        dataDir = 'data'
+        os.makedirs(dataDir, exist_ok = True)
         comment = self.lEd_FileComment.text()
         filename = time.strftime(f"%Y-%m-%d_%H-%M-%S_{comment}")
-        self.sensorData.to_csv(f"sensorData_{filename}.csv")
+        self.sensorData.to_csv(os.path.join(dataDir, f"sensorData_{filename}.csv"))
 
 if __name__ == '__main__':
     app = QApplication([])
