@@ -157,6 +157,7 @@ class MainUI(QMainWindow):
             print(message)
             self.statusbar.showMessage(message)
             self.tab_Measure.setEnabled(True)
+            self.pBtn_Start.setEnabled(True)
             self.pBtn_Connect.setStyleSheet('QPushButton {background-color : #45a049;}'
                                          'QPushButton:hover { background-color: forestgreen;}')
         except (IOError, AttributeError, ValueError) as error: # minimalmodbus.serial.serialutil.SerialException:
@@ -164,16 +165,18 @@ class MainUI(QMainWindow):
             print(message)
             self.statusbar.showMessage(message)
             print(error)
-            self.tab_Measure.setEnabled(False)
+            self.tab_Measure.setEnabled(True) # TODO False
+            # self.pBtn_Start.setEnabled(True) # TODO False
 
     def getDataFromSensor(self) -> list:
         try:
             dataline = self.sensor.read_registers(0, 50)
-        except IOError as err:
+        except (IOError, AttributeError) as err:
             message = "Не удалось считать данные с датчика"
             print(message)
             self.statusbar.showMessage(message)
             print(err)
+            dataline = []
         return dataline
 
     def collectData(self) -> None:
@@ -192,38 +195,50 @@ class MainUI(QMainWindow):
             dataline = self.getDataFromSensor()
 
             line = []
-            line.append(timestamp)
-            line.append(dataline[0])
-            line.append(dataline[1])
-            line.append(dataline[2])
-            line.append(dataline[3])
-            line.append(dataline[4])
-            line.append(dataline[5])
-            line.append(dataline[6])
-            line.append(dataline[7])
-            line.append(dataline[8])
-            line.append(dataline[9])
-            line.append(dataline[10])
-            line.append(self.IEEE754_to_float(dataline[11], dataline[12]))
-            line.append(self.IEEE754_to_float(dataline[13], dataline[14]))
-            line.append(self.IEEE754_to_float(dataline[15], dataline[16]))
-            line.append(self.IEEE754_to_float(dataline[17], dataline[18]))
-            line.append(self.IEEE754_to_float(dataline[19], dataline[20]))
-            line.append(self.IEEE754_to_float(dataline[21], dataline[22]))
-            line.append(self.IEEE754_to_float(dataline[23], dataline[24]))
-            line.append(self.IEEE754_to_float(dataline[25], dataline[26]))
-            line.append(self.IEEE754_to_float(dataline[27], dataline[28]))
-            line.append(self.IEEE754_to_float(dataline[29], dataline[30]))
-            line.append(self.IEEE754_to_float(dataline[31], dataline[32]))
-            line.append(self.IEEE754_to_float(dataline[33], dataline[34]))
-            line.append(self.IEEE754_to_float(dataline[35], dataline[36]))
-            line.append(self.IEEE754_to_float(dataline[37], dataline[38]))
-            line.append(self.IEEE754_to_float(dataline[39], dataline[40]))
-            line.append(dataline[44])
-            line.append(dataline[45])
-            line.append(dataline[46])
+            try:
+                line.append(timestamp)
+                line.append(dataline[0])
+                line.append(dataline[1])
+                line.append(dataline[2])
+                line.append(dataline[3])
+                line.append(dataline[4])
+                line.append(dataline[5])
+                line.append(dataline[6])
+                line.append(dataline[7])
+                line.append(dataline[8])
+                line.append(dataline[9])
+                line.append(dataline[10])
+                line.append(self.IEEE754_to_float(dataline[11], dataline[12]))
+                line.append(self.IEEE754_to_float(dataline[13], dataline[14]))
+                line.append(self.IEEE754_to_float(dataline[15], dataline[16]))
+                line.append(self.IEEE754_to_float(dataline[17], dataline[18]))
+                line.append(self.IEEE754_to_float(dataline[19], dataline[20]))
+                line.append(self.IEEE754_to_float(dataline[21], dataline[22]))
+                line.append(self.IEEE754_to_float(dataline[23], dataline[24]))
+                line.append(self.IEEE754_to_float(dataline[25], dataline[26]))
+                line.append(self.IEEE754_to_float(dataline[27], dataline[28]))
+                line.append(self.IEEE754_to_float(dataline[29], dataline[30]))
+                line.append(self.IEEE754_to_float(dataline[31], dataline[32]))
+                line.append(self.IEEE754_to_float(dataline[33], dataline[34]))
+                line.append(self.IEEE754_to_float(dataline[35], dataline[36]))
+                line.append(self.IEEE754_to_float(dataline[37], dataline[38]))
+                line.append(self.IEEE754_to_float(dataline[39], dataline[40]))
+                line.append(dataline[44])
+                line.append(dataline[45])
+                line.append(dataline[46])
+            except IndexError as err:
+                message = "Не удалось считать данные"
+                print(message)
+                self.statusbar.showMessage(message)
+                print(err)
 
-            self.sensorData.loc[len(self.sensorData)] = line
+            try:
+                self.sensorData.loc[len(self.sensorData)] = line
+            except ValueError as err:
+                message = "Не удалось считать данные с датчика"
+                print(message)
+                self.statusbar.showMessage(message)
+                print(err)
             if freq >= 0.02:
                 time.sleep(freq-0.2)
             timestamp = time.time()-checktime
@@ -233,7 +248,13 @@ class MainUI(QMainWindow):
         self.statusbar.showMessage(message)
         self.pBtn_Start.setEnabled(True)
         self.pBtn_Start.setStyleSheet('QPushButton {background-color : green;}')
-        self.sensor.serial.close()
+        try:
+            self.sensor.serial.close()
+        except AttributeError as err:
+            message = "Не удалось считать данные с датчика"
+            print(message)
+            self.statusbar.showMessage(message)
+            print(err)
 
     def dumpData(self) -> None:
         comment = self.lEd_FileComment.text()
