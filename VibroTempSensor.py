@@ -238,7 +238,7 @@ class MainUI(QMainWindow):
                 self.statusbar.showMessage(message)
                 print(err)
             if freq >= 0.02:
-                time.sleep(freq-0.2)
+                time.sleep(freq-0.02)
             timestamp = time.time()-checktime
 
         message = "Измерение завершено"
