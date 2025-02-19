@@ -238,7 +238,13 @@ class MainUI(QMainWindow):
     def dumpData(self) -> None:
         comment = self.lEd_FileComment.text()
         filename = time.strftime(f"%Y-%m-%d_%H-%M-%S_{comment}")
-        self.sensorData.to_csv(f"sensorData_{filename}.csv")
+        try:            
+            self.sensorData.to_csv(f"sensorData_{filename}.csv")
+        except ValueError as err:
+            message = "Некорректное название файла"
+            print(message)
+            self.statusbar.showMessage(message)
+            print(error)
 
 if __name__ == '__main__':
     app = QApplication([])
