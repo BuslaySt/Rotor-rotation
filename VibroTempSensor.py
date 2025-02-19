@@ -236,8 +236,8 @@ class MainUI(QMainWindow):
         self.sensor.serial.close()
 
     def dumpData(self) -> None:
-        comment = self.lEd_FileComment.currentText()
-        filename = time.strftime(f"%Y-%m-%d_%H-%M-%S-{comment}")
+        comment = self.lEd_FileComment.text()
+        filename = time.strftime(f"%Y-%m-%d_%H-%M-%S_{comment}")
         self.sensorData.to_csv(f"sensorData_{filename}.csv")
 
 if __name__ == '__main__':
