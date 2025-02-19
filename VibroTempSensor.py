@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.uic import loadUi
 # from PyQt5.QtWebEngineWidgets import QWebEngineView
-import os, sys, datetime, time, json
+import os, sys, time, json
 import minimalmodbus, serial
 import serial.tools.list_ports
 
