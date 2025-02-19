@@ -164,7 +164,7 @@ class MainUI(QMainWindow):
             print(message)
             self.statusbar.showMessage(message)
             print(error)
-            self.tab_Measure.setEnabled(True)
+            self.tab_Measure.setEnabled(False)
 
     def getDataFromSensor(self) -> list:
         try:
