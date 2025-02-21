@@ -1,13 +1,11 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.uic import loadUi
 # from PyQt5.QtWebEngineWidgets import QWebEngineView
-import os, sys, time, json
+import os, sys, time, json, struct
 import minimalmodbus, serial
 import serial.tools.list_ports
 
 import pandas as pd
-import struct
-# import threading
 
 class MainUI(QMainWindow):
     def __init__(self):

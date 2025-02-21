@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>Датчик вибрации</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>AMTClogo-M.ico</normaloff>AMTClogo-M.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
