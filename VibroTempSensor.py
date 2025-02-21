@@ -162,7 +162,7 @@ class MainUI(QMainWindow):
             print(message)
             self.statusbar.showMessage(message)
             print(error)
-            self.tab_Measure.setEnabled(True)
+            self.tab_Measure.setEnabled(False)
 
     def getDataFromSensor(self) -> list:
         try:
@@ -236,7 +236,7 @@ class MainUI(QMainWindow):
                 self.statusbar.showMessage(message)
                 print(err)
             if freq >= 0.02:
-                time.sleep(freq-0.2)
+                time.sleep(freq-0.02)
             timestamp = time.time()-checktime
 
         message = "Измерение завершено"
@@ -257,7 +257,13 @@ class MainUI(QMainWindow):
         os.makedirs(dataDir, exist_ok = True)
         comment = self.lEd_FileComment.text()
         filename = time.strftime(f"%Y-%m-%d_%H-%M-%S_{comment}")
-        self.sensorData.to_csv(os.path.join(dataDir, f"sensorData_{filename}.csv"))
+        try:            
+            self.sensorData.to_csv(os.path.join(dataDir, f"sensorData_{filename}.csv"))
+        except ValueError as err:
+            message = "Некорректное название файла"
+            print(message)
+            self.statusbar.showMessage(message)
+            print(error)
 
 if __name__ == '__main__':
     app = QApplication([])
