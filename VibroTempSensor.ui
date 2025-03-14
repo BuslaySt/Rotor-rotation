@@ -48,9 +48,9 @@
        <attribute name="title">
         <string>Подключение</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <layout class="QVBoxLayout" name="verticalLayout_4" stretch="1,1,1,1,2">
         <item>
-         <widget class="QFrame" name="frame_4">
+         <widget class="QFrame" name="frame_01">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -172,7 +172,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="frame_5">
+         <widget class="QFrame" name="frame_02">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -288,7 +288,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="frame_2">
+         <widget class="QFrame" name="frame_03">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -367,7 +367,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="frame_3">
+         <widget class="QFrame" name="frame_04">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -443,7 +443,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="frame_11">
+         <widget class="QFrame" name="frame_05">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -481,10 +481,16 @@
            </item>
            <item>
             <widget class="QPushButton" name="pBtn_Connect">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>95</height>
+               <height>120</height>
               </size>
              </property>
              <property name="font">
@@ -531,7 +537,7 @@ QPushButton:hover { background-color: salmon;}</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_10">
         <item>
-         <widget class="QFrame" name="frame_7">
+         <widget class="QFrame" name="frame_21">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -655,7 +661,7 @@ QPushButton:hover { background-color: salmon;}</string>
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="frame_9">
+         <widget class="QFrame" name="frame_22">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
