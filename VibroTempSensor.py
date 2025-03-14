@@ -6,7 +6,7 @@ import minimalmodbus, serial
 import serial.tools.list_ports
 
 import pandas as pd
-
+  
 class MainUI(QMainWindow):
     def __init__(self):
         super(MainUI, self).__init__()
