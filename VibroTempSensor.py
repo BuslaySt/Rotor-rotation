@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.uic import loadUi
 # from PyQt5.QtWebEngineWidgets import QWebEngineView
-import os, sys, time, json, struct
+import os, sys, time, struct
 import minimalmodbus, serial
 import serial.tools.list_ports
 
@@ -263,7 +263,7 @@ class MainUI(QMainWindow):
             message = "Некорректное название файла"
             print(message)
             self.statusbar.showMessage(message)
-            print(error)
+            print(err)
 
 if __name__ == '__main__':
     app = QApplication([])
